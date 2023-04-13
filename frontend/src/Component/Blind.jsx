@@ -48,7 +48,6 @@ export default function Blind() {
     function HandleCancel()
     {
       window.location.reload();
-      setLabel([0,0,0,0]);
     }
 useEffect( () =>{
 
@@ -83,6 +82,7 @@ useEffect( () =>{
     
     const DrawImage = async(event) =>
     {
+      input.style.visibility="hidden"; //사진드롭시 drop 불가능하게 막기
       canvas.style.border ='none';
       canvas.style.display="block";
       console.log(event.dataTransfer.files[0]);
