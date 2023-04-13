@@ -38,6 +38,7 @@ width : 600px;
 export default function Blind() {
   const [checkm,setCheckm]=useState([true,true,true]);
   const [datas,setDatas]=useState([]);
+  const [label,setLabel]=useState([0,0,0,0])
     // ref
     const canvasRef = useRef(null);
     const inputRef = useRef(null);
@@ -47,6 +48,7 @@ export default function Blind() {
     function HandleCancel()
     {
       window.location.reload();
+      setLabel([0,0,0,0]);
     }
 useEffect( () =>{
 
@@ -97,6 +99,27 @@ useEffect( () =>{
         console.log(response);
         console.dir(response);
         setDatas(response.data);
+        let copy = [...label]; //배열의 원본을 수정하는것은 좋지 않다.
+        response.data.map( (data) =>
+          {
+            if(data.name === '0')
+            {
+              copy[0] += 1;
+            }
+            else if (data.name === "Mobile phone")
+            {
+              copy[1] += 1;
+            }
+            else if (data.name === "card")
+            {
+              copy[2] += 1;
+            }
+            else if(data.name ==="license-plate")
+            {
+              copy[3] += 1;
+            }
+          })
+          setLabel(copy);
       }catch(error)
       {
         console.log(error);
@@ -125,41 +148,43 @@ useEffect( () =>{
     {
           console.log("on");
           var imageData = context.getImageData(x1,y1,width1,height1); //원하는 좌표가 될것
+          console.log(imageData.data);
+
             const pixels = imageData.data;
             const width = imageData.width;
             const height = imageData.height;
-          for (let y = 0; y < height; y += 4) {
-            for (let x = 0; x < width; x += 4) {
-              let r = 0, g = 0, b = 0;
-              let count = 0;
-        
-              // Sum the RGB values of each pixel in the tile
-              for (let dy = 0; dy < 4 && y + dy < height; dy++) {
-                for (let dx = 0; dx < 4 && x + dx < width; dx++) {
-                  const index = ((y + dy) * width + (x + dx)) * 4;
-                  r += pixels[index];
-                  g += pixels[index + 1];
-                  b += pixels[index + 2];
-                  count++;
+            for (let y = 0; y < height; y += 15) {
+              for (let x = 0; x < width; x += 15) {
+                let r = 0, g = 0, b = 0;
+                let count = 0;
+          
+                // Sum the RGB values of each pixel in the tile
+                for (let dy = 0; dy < 15 && y + dy < height; dy++) {
+                  for (let dx = 0; dx < 15 && x + dx < width; dx++) {
+                    const index = ((y + dy) * width + (x + dx)) * 4;
+                    r += pixels[index];
+                    g += pixels[index + 1];
+                    b += pixels[index + 2];
+                    count++;
+                  }
                 }
-              }
-        
-              // Calculate the average RGB value for the tile
-              const avgR = Math.floor(r / count);
-              const avgG = Math.floor(g / count);
-              const avgB = Math.floor(b / count);
-        
-              // Set the RGB values of each pixel in the tile to the average value
-              for (let dy = 0; dy < 4 && y + dy < height; dy++) {
-                for (let dx = 0; dx < 4 && x + dx < width; dx++) {
-                  const index = ((y + dy) * width + (x + dx)) * 4;
-                  pixels[index] = avgR;
-                  pixels[index + 1] = avgG;
-                  pixels[index + 2] = avgB;
+          
+                // Calculate the average RGB value for the tile
+                const avgR = Math.floor(r / count);
+                const avgG = Math.floor(g / count);
+                const avgB = Math.floor(b / count);
+          
+                // Set the RGB values of each pixel in the tile to the average value
+                for (let dy = 0; dy < 15 && y + dy < height; dy++) {
+                  for (let dx = 0; dx < 15 && x + dx < width; dx++) {
+                    const index = ((y + dy) * width + (x + dx)) * 4;
+                    pixels[index] = avgR;
+                    pixels[index + 1] = avgG;
+                    pixels[index + 2] = avgB;
+                  }
                 }
               }
             }
-          }
         blurctx.putImageData(imageData, x1 , y1);
     }
     function BlurOff(x, y, width, height)
@@ -280,7 +305,7 @@ useEffect( () =>{
       save.removeEventListener('click',Save);
     };
 
-},[checkm,datas])
+},[checkm,datas,label])
 
   return (
     <>
@@ -297,6 +322,7 @@ useEffect( () =>{
       </Form>
       <div id ="pixel">
       <SubTitle>탐색된 정보</SubTitle>
+        {(datas.length===0) ? (<h1>input image</h1>) : null }
         {datas.map( (data) =>
         (
           <div>
@@ -319,10 +345,13 @@ useEffect( () =>{
       <canvas id ="canvas" ref={canvasRef} />
       <canvas id= "blur" ref={blurRef}/>
       <canvas id="hover" ref={hoverRef} />
-     
-
      <FindClass>
      <SubTitle>탐색된 클래스</SubTitle>
+     { (datas.length===0) ? ( <h1>input image</h1>) : (
+     <><p>얼굴 : {label[0]}</p>
+     <p>휴대폰 : {label[1]}</p>
+     <p>카드 : {label[2]}</p>
+     <p>번호판 : {label[3]}</p></>) }
      </FindClass>
       <ButtonLayer id="btnlayer">
       <Button12 type="button" id ="btnSave" ref={saveRef}>저장하기</Button12>

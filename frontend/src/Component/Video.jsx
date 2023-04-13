@@ -44,6 +44,8 @@ max-width : 1200px;
 export default function Video() {
   const inputRef = useRef(null);
   const saveRef = useRef(null);
+  const [datas,setDatas]=useState([]);
+  const [label,setLabel]=useState([0,0,0,0])
   function HandleCancel()
   {
     window.location.reload();
@@ -82,13 +84,16 @@ export default function Video() {
         });
         console.log(response);
         console.dir(response);
+        // setDatas(response.data[1]);
       }catch(error)
       {
         console.log(error);
       }
       const video = document.getElementById("video");
-      const videourl = URL.createObjectURL(f);
-      video.setAttribute("src", videourl);
+      const file = await fetch('C:/Users/82103/Desktop/yolo/yolov5-master/static/omgteaser_original.mp4').then((response) => response.blob());
+      console.log(file);
+      const url = URL.createObjectURL(file);
+      video.setAttribute("src",url);
       video.play();
     }
     const Save = async(event) =>{
@@ -124,6 +129,21 @@ export default function Video() {
       </Form>
       <div id ="pixel">
       <SubTitle>탐색된 정보</SubTitle>
+      {(datas.length===0) ? (<h1>input image</h1>) : null }
+      {datas.map( (data) =>
+        (
+          <div>
+            <div>&#123;</div>  
+            <p> " class" : {data.class}</p>
+            <p>"confidence": {data.confidence}</p>
+            <p>"name" : {data.name}</p>
+            <p> "xmax" : {data.xmax}</p>
+            <p>"xmin" : {data.xmin}</p>
+            <p>"ymax" : {data.ymax}</p>
+            <p>"ymin" : {data.ymin}</p>
+            <div>&#125;,</div>  
+          </div>
+        ))}
       </div>
       </div>
       <div id="right">
@@ -131,6 +151,11 @@ export default function Video() {
 
      <div id="findclass">
      <SubTitle>탐색된 클래스</SubTitle>
+     { (datas.length===0) ? ( <h1>input image</h1>) : (
+     <><p>얼굴 : {label[0]}</p>
+     <p>휴대폰 : {label[1]}</p>
+     <p>카드 : {label[2]}</p>
+     <p>번호판 : {label[3]}</p></>) }
      </div>
       <ButtonLayer id="btnlayer">
       <Button12 type="button" id ="btnSave" ref={saveRef}>저장하기</Button12>
