@@ -53,13 +53,12 @@ export default function Gallery() {
     <thead>
       <tr>
         <th>Id</th>
-        <th>createdDate</th>
-        <th>originalFileName</th>
-        <th>storedFileName</th>
-        <th>file_path</th>
-        <th>file_type</th>
-        <th>file_size</th>
-        <th>download</th>
+        <th>파일 생성일</th>
+        <th>파일이름</th>
+        <th>파일저장경로</th>
+        <th>파일타입</th>
+        <th>파일크기</th>
+        <th>다운로드</th>
       </tr>
       </thead>
       <tbody>
@@ -69,7 +68,6 @@ export default function Gallery() {
             <td>{data.id}</td>
             <td>{data.createdDate}</td>
             <td>{data.originalFileName}</td>
-            <td>{data.storedFileName}</td>
             <td>{data.file_path}</td>
             <td>{data.file_type}</td>
             <td>{data.file_size}</td>

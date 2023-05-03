@@ -89,6 +89,8 @@ export default function Video() {
       {
         console.log(error);
       }
+      const btnlayer= document.getElementById('btnlayer');
+      btnlayer.style.display="flex";
       const video = document.getElementById("video");
       const file = await fetch('C:/Users/82103/Desktop/yolo/yolov5-master/static/omgteaser_original.mp4').then((response) => response.blob());
       console.log(file);
@@ -129,7 +131,7 @@ export default function Video() {
       </Form>
       <div id ="pixel">
       <SubTitle>탐색된 정보</SubTitle>
-      {(datas.length===0) ? (<h1>input image</h1>) : null }
+      {(datas.length===0) ? (<CenterText>동영상을 삽입해주세요</CenterText>) : null }
       {datas.map( (data) =>
         (
           <div>
@@ -151,7 +153,7 @@ export default function Video() {
 
      <div id="findclass">
      <SubTitle>탐색된 클래스</SubTitle>
-     { (datas.length===0) ? ( <h1>input image</h1>) : (
+     { (datas.length===0) ? ( <CenterText>동영상을 삽입해주세요</CenterText>) : (
      <><p>얼굴 : {label[0]}</p>
      <p>휴대폰 : {label[1]}</p>
      <p>카드 : {label[2]}</p>
@@ -201,7 +203,14 @@ const ButtonLayer = styled.div`
 margin-top : 10px;
 max-width : 600px;
 width : 600px;
-display : flex; 
+display : none;
 gap : 25px;
 flex-direction: column;
+`
+
+const CenterText = styled.div`
+text-align : center;
+margin-top : 60px;
+color : gray;
+
 `
