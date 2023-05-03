@@ -85,6 +85,8 @@ useEffect( () =>{
       input.style.visibility="hidden"; //사진드롭시 drop 불가능하게 막기
       canvas.style.border ='none';
       canvas.style.display="block";
+      const btnlayer= document.getElementById('btnlayer');
+      btnlayer.style.display="flex";
       console.log(event.dataTransfer.files[0]);
       const f = event.dataTransfer.files[0];
       const formData = new FormData();
@@ -213,11 +215,11 @@ useEffect( () =>{
           console.log(i);
           if(checkm[i]) //true는 블라인드를 할수 있다.
           {
-            BlurOn(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax-data.ymin);
+            BlurOn(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax - data.ymin);
             SetBlindCheck(i);
           }
           else{ //false는 블라인드를해제할수 있다.
-            BlurOff(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax-data.ymin);
+            BlurOff(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax- data.ymin);
             SetBlindCheck(i);
           }
         }
@@ -232,15 +234,16 @@ useEffect( () =>{
       const x = event.offsetX;
       const y = event.offsetY;
       datas.map( (data )=>{
-
+        console.log(y);
       if(x >= data.xmin && x <= data.xmax && y>=data.ymin && y<= data.ymax)
       {
         hoverctx.strokeStyle = "red";
-        hoverctx.strokeRect(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax-data.ymin);
+        console.log(Math.floor(data.ymax)-Math.floor(data.ymin));
+        hoverctx.strokeRect(data.xmin, data.ymin, Math.floor(data.xmax)-Math.floor(data.xmin), Math.floor(data.ymax)-Math.floor(data.ymin));
       }
       else if ( x >= 0 && x <=hover.width && y>=0 && y<= hover.height ){
         hoverctx.strokeStyle = "blue";
-        hoverctx.strokeRect(data.xmin, data.ymin, data.xmax-data.xmin, data.ymax-data.ymin);
+        hoverctx.strokeRect(data.xmin, data.ymin, Math.floor(data.xmax)-Math.floor(data.xmin), Math.floor(data.ymax)-Math.floor(data.ymin));
       }
       else{
         hoverctx.clearRect(0,0, hover.width, hover.height);
@@ -322,18 +325,18 @@ useEffect( () =>{
       </Form>
       <div id ="pixel">
       <SubTitle>탐색된 정보</SubTitle>
-        {(datas.length===0) ? (<h1>input image</h1>) : null }
+        {(datas.length===0) ? (<CenterText>사진을 올려주세요</CenterText>) : null }
         {datas.map( (data) =>
         (
           <div>
             <div>&#123;</div>  
             <p> " class" : {data.class}</p>
-            <p>"confidence": {data.confidence}</p>
-            <p>"name" : {data.name}</p>
-            <p> "xmax" : {data.xmax}</p>
-            <p>"xmin" : {data.xmin}</p>
-            <p>"ymax" : {data.ymax}</p>
-            <p>"ymin" : {data.ymin}</p>
+            <p> " 정확도 " : {data.confidence}%</p>
+            <p>" name " : {data.name}</p>
+            <p> " xmax " : {data.xmax}</p>
+            <p>" xmin " : {data.xmin}</p>
+            <p>" ymax " : {data.ymax}</p>
+            <p>" ymin " : {data.ymin}</p>
             <div>&#125;,</div>  
           </div>
         ))}
@@ -347,7 +350,7 @@ useEffect( () =>{
       <canvas id="hover" ref={hoverRef} />
      <FindClass>
      <SubTitle>탐색된 클래스</SubTitle>
-     { (datas.length===0) ? ( <h1>input image</h1>) : (
+     { (datas.length===0) ? ( <CenterText>사진을 올려주세요</CenterText>) : (
      <><p>얼굴 : {label[0]}</p>
      <p>휴대폰 : {label[1]}</p>
      <p>카드 : {label[2]}</p>
@@ -397,7 +400,7 @@ const ButtonLayer = styled.div`
 margin-top : 10px;
 max-width : 600px;
 width : 600px;
-display : flex; 
+display : none;
 gap : 25px;
 flex-direction: column;
 `
@@ -413,4 +416,11 @@ const FindClass = styled.div`
   &::-webkit-scrollbar{
     display: none;
   }
+`
+
+const CenterText = styled.div`
+text-align : center;
+margin-top : 60px;
+color : gray;
+
 `

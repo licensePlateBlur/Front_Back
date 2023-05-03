@@ -9,6 +9,7 @@ display : flex;
 flex-direction: row;
 gap: 37px;
 `;
+
 const Login =styled.button`
 font-weight: 400;
 font-size: 12px;
@@ -44,13 +45,14 @@ export default function Banner() {
                 <Link to="/login"><Login>LOGIN</Login></Link>
                 <Link to="/join"><Signup>SIGNUP</Signup></Link>
             </SubTitle>
-            
+          
             </div>
             <nav className="header">
             <NavLink className='Logo'to="/">그루트</NavLink>
             <ul>
             <NavLink to="/image"><li>사진</li></NavLink>
             <NavLink to="/video"><li >동영상</li></NavLink>
+            <NavLink to="/realtime"><li>실시간영상</li></NavLink>
             <NavLink to="/gallery"><li>갤러리</li></NavLink>
             <NavLink to="/price"><li>가격</li></NavLink>
             </ul>
