@@ -53,7 +53,8 @@ export default function Banner() {
             <NavLink to="/image"><li>사진</li></NavLink>
             <NavLink to="/video"><li >동영상</li></NavLink>
             <NavLink to="/realtime"><li>실시간영상</li></NavLink>
-            <NavLink to="/gallery"><li>갤러리</li></NavLink>
+            <NavLink to="/gallery"><li>사진 갤러리</li></NavLink>
+            <NavLink to="/videogallery"><li>영상 갤러리</li></NavLink>
             <NavLink to="/price"><li>가격</li></NavLink>
             </ul>
             </nav>

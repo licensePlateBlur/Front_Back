@@ -44,6 +44,7 @@ max-width : 1200px;
 export default function Video() {
   const inputRef = useRef(null);
   const saveRef = useRef(null);
+  const [videoUrl, setVideoUrl] = useState('');
   const [datas,setDatas]=useState([]);
   const [label,setLabel]=useState([0,0,0,0])
   function HandleCancel()
@@ -68,17 +69,27 @@ export default function Video() {
       preventDefault(event);
       BlindVideo(event);
     }
+    const fetchVideo = async () => {
+      const response = await axios.get('http://localhost:5000/python/image/11',{ responseType: 'blob' });
+      console.log(response);
+      const videoUrl = URL.createObjectURL(response.data);
+      console.log(videoUrl);
+      const video = document.getElementById("video");
+      video.src = videoUrl;
+      video.play();
+      // setVideoUrl(videoUrl);
+    };
 
     const BlindVideo = async(event) =>
     {
       console.log(event.dataTransfer.files[0]);
       const f = event.dataTransfer.files[0];
       const formData = new FormData();
-      formData.append("video", f);
+      formData.append("file", f);
       try{
         const response = await axios({
           method: "post",
-          url: "http://localhost:5000/detect",
+          url: "http://localhost:5000/python/upload",
           data: formData,
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -91,12 +102,7 @@ export default function Video() {
       }
       const btnlayer= document.getElementById('btnlayer');
       btnlayer.style.display="flex";
-      const video = document.getElementById("video");
-      const file = await fetch('C:/Users/82103/Desktop/yolo/yolov5-master/static/omgteaser_original.mp4').then((response) => response.blob());
-      console.log(file);
-      const url = URL.createObjectURL(file);
-      video.setAttribute("src",url);
-      video.play();
+      fetchVideo();
     }
     const Save = async(event) =>{
 
@@ -115,7 +121,7 @@ export default function Video() {
       input.addEventListener('drop', handleDrop);
       save.addEventListener('click',Save);
     };
-  },[])
+  },[setVideoUrl])
   return (
     <>
     <MainLayout>
@@ -149,7 +155,8 @@ export default function Video() {
       </div>
       </div>
       <div id="right">
-      <VideO id="video"></VideO>
+      <VideO controls id="video">
+    </VideO>
 
      <div id="findclass">
      <SubTitle>탐색된 클래스</SubTitle>
