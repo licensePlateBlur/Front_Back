@@ -2,6 +2,7 @@ import React,{ Component,useState,useRef,useEffect } from 'react'
 import styled from 'styled-components'
 import '../App.css';
 import axios from 'axios';
+import {create} from 'zustand';
 const MainLayout = styled.div`
  max-width : 1200px;
  margin : 0 auto;
@@ -34,8 +35,16 @@ const SubTitle = styled.h1`
 text-align: center;
 width : 600px;
 `;
+const useFileStore = create( (set) => ({
+  file1 : null,
+  setFile: (inputfile) => {
+    set({ file1: inputfile });
+  }
+}));
 
 export default function Blind() {
+  const {file1,setFile} = useFileStore();
+
   const [checkm,setCheckm]=useState([true,true,true]);
   const [datas,setDatas]=useState([]);
   const [label,setLabel]=useState([0,0,0,0])
@@ -91,6 +100,7 @@ useEffect( () =>{
       const f = event.dataTransfer.files[0];
       const formData = new FormData();
       formData.append("video", f);
+      setFile(f); //파일을받아서 zustand에 저장 -> 파일상태를 관리하고, 변환후 파일이름을 가져오기위함
       try{
         const response = await axios({
           method: "post",
@@ -263,7 +273,7 @@ useEffect( () =>{
       const blur = document.getElementById('blur');
       const image = blur.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
       var link = document.createElement('a');
-      link.download = "mozaic.png";
+      link.download = file1.name;
       link.href = image;
       link.click();
 
@@ -273,9 +283,9 @@ useEffect( () =>{
         array.push(blobBin.charCodeAt(i));
       }
       var blob = new Blob([new Uint8Array(array)], {type: 'image/png'});
-      var file = new File([blob], "mozaic.png");
+      var mozaicfile = new File([blob], file1.name);
       var formdata = new FormData();	// formData 생성
-      formdata.append("file", file);	// file data 추가
+      formdata.append("file", mozaicfile);	// file data 추가
       try{
         const response = await axios({
           method: "post",
@@ -308,7 +318,7 @@ useEffect( () =>{
       save.removeEventListener('click',Save);
     };
 
-},[checkm,datas,label])
+},[checkm,datas,label,file1,setFile])
 
   return (
     <>

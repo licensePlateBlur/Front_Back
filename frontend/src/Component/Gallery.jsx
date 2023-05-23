@@ -55,7 +55,6 @@ export default function Gallery() {
         <th>Id</th>
         <th>파일 생성일</th>
         <th>파일이름</th>
-        <th>파일저장경로</th>
         <th>파일타입</th>
         <th>파일크기</th>
         <th>다운로드</th>
@@ -68,7 +67,6 @@ export default function Gallery() {
             <td>{data.id}</td>
             <td>{data.createdDate}</td>
             <td>{data.originalFileName}</td>
-            <td>{data.file_path}</td>
             <td>{data.file_type}</td>
             <td>{data.file_size}</td>
             <td><button onClick={(e) => HandleOnclick(data.id, e)}>다운로드</button></td>

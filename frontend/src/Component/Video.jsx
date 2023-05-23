@@ -52,7 +52,8 @@ export default function Video() {
     window.location.reload();
   }
   useEffect( () =>{
-
+    const video = document.getElementById("video");
+    video.style.visibility = "hidden";
     const input = inputRef.current; 
     const save=saveRef.current;
     function preventDefault(event) {
@@ -70,11 +71,12 @@ export default function Video() {
       BlindVideo(event);
     }
     const fetchVideo = async () => {
-      const response = await axios.get('http://localhost:5000/python/image/11',{ responseType: 'blob' });
+      const video = document.getElementById("video");
+      video.style.visibility="visible";
+      const response = await axios.get('http://localhost:5000/image/1',{ responseType: 'blob' });
       console.log(response);
       const videoUrl = URL.createObjectURL(response.data);
       console.log(videoUrl);
-      const video = document.getElementById("video");
       video.src = videoUrl;
       video.play();
       // setVideoUrl(videoUrl);
@@ -127,7 +129,7 @@ export default function Video() {
     <MainLayout>
     <div id ="left">
     <Form id="form">
-    <SubTitle>블러처리할 동영상을 올려주세요</SubTitle>
+    <SubTitle>등록하고 싶은 영상을 올려주세요</SubTitle>
       <Input  type="file" id="input-file-upload" accept=".mov,.mp4"/>
       <Label ref={inputRef} htmlFor="input-file-upload">
         <div>
