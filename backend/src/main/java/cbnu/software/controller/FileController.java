@@ -29,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor //생성자 생성과 의존관계를 진행해줌
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
+@RequestMapping("/spring")
 @Api(tags = {"File Info"}, description = "파일 서비스")
 public class FileController {
     private final FileService fileService;

@@ -25,7 +25,7 @@ export default function VideoGallery() {
   const HandleOnclick = async(id,event) =>{
     preventDefault(event);
       const download = document.createElement('a');
-        download.href = `http://localhost:5000/download/${id}`;
+        download.href = `http://localhost:5000/python/download/${id}`;
         download.setAttribute('download', "다운로드");
         download.click();
   }
@@ -35,7 +35,7 @@ export default function VideoGallery() {
       try
       {
       const result = await axios.get(
-        `http://localhost:5000/files`
+        `http://localhost:5000/python/files`
       );
       setDatas(result.data);
     }catch(err)

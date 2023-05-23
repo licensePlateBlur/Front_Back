@@ -25,7 +25,7 @@ export default function Gallery() {
   const HandleOnclick = async(id,event) =>{
     preventDefault(event);
       const download = document.createElement('a');
-        download.href = `http://localhost:8080/attach/${id}`;
+        download.href = `http://localhost:8080/spring/attach/${id}`;
         download.setAttribute('download', "다운로드");
         download.click();
   }
@@ -35,7 +35,7 @@ export default function Gallery() {
       try
       {
       const result = await axios.get(
-        `http://localhost:8080/files`
+        `http://localhost:8080/spring/files`
       );
       setDatas(result.data);
     }catch(err)

@@ -35,6 +35,7 @@ const SubTitle = styled.h1`
 text-align: center;
 width : 600px;
 `;
+//zustand 상태관리
 const useFileStore = create( (set) => ({
   file1 : null,
   setFile: (inputfile) => {
@@ -289,7 +290,7 @@ useEffect( () =>{
       try{
         const response = await axios({
           method: "post",
-          url: "http://localhost:8080/upload",
+          url: "http://localhost:8080/spring/upload",
           data: formdata,
           processData: false,
           contentType: false,

@@ -73,7 +73,7 @@ export default function Video() {
     const fetchVideo = async () => {
       const video = document.getElementById("video");
       video.style.visibility="visible";
-      const response = await axios.get('http://localhost:5000/image/1',{ responseType: 'blob' });
+      const response = await axios.get('http://localhost:5000/python/image/1',{ responseType: 'blob' });
       console.log(response);
       const videoUrl = URL.createObjectURL(response.data);
       console.log(videoUrl);
