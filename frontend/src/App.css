@@ -57,6 +57,7 @@ li, ol{
 }
 #pixel
 {
+  display: none;
   overflow-y:scroll;
   width: 600px;
   height: 400px;
@@ -136,7 +137,7 @@ caption{
   gap : 25px;
 }
 #right{
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 600px;
   position: relative;

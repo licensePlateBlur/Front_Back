@@ -97,15 +97,21 @@ useEffect( () =>{
       canvas.style.display="block";
       const btnlayer= document.getElementById('btnlayer');
       btnlayer.style.display="flex";
+      const right = document.getElementById("right");
+      const pixel = document.getElementById("pixel");
+      right.style.display="flex";
+      pixel.style.display="block";
+
+      
       console.log(event.dataTransfer.files[0]);
       const f = event.dataTransfer.files[0];
       const formData = new FormData();
-      formData.append("video", f);
+      formData.append("image", f);
       setFile(f); //파일을받아서 zustand에 저장 -> 파일상태를 관리하고, 변환후 파일이름을 가져오기위함
       try{
         const response = await axios({
           method: "post",
-          url: "http://localhost:5000/detect",
+          url: "http://localhost:5000/python/detect_image",
           data: formData,
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -336,7 +342,7 @@ useEffect( () =>{
       </Form>
       <div id ="pixel">
       <SubTitle>탐색된 정보</SubTitle>
-        {(datas.length===0) ? (<CenterText>사진을 올려주세요</CenterText>) : null }
+        {(datas.length===0) ? (<CenterText>로딩중</CenterText>) : null }
         {datas.map( (data) =>
         (
           <div>
@@ -361,7 +367,7 @@ useEffect( () =>{
       <canvas id="hover" ref={hoverRef} />
      <FindClass>
      <SubTitle>탐색된 클래스</SubTitle>
-     { (datas.length===0) ? ( <CenterText>사진을 올려주세요</CenterText>) : (
+     { (datas.length===0) ? ( <CenterText>로딩중</CenterText>) : (
      <><p>얼굴 : {label[0]}</p>
      <p>휴대폰 : {label[1]}</p>
      <p>카드 : {label[2]}</p>

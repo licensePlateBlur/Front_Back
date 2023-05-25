@@ -64,12 +64,12 @@ export default function VideoGallery() {
       {
         datas.map( (data,i)=>(
           <tr key={i}>
-            <td>{data.id}</td>
-            <td>{data.create_date}</td>
-            <td>{data.original_filename}</td>
-            <td>{data.file_type}</td>
-            <td>{data.file_size}</td>
-            <td><button onClick={(e) => HandleOnclick(data.id, e)}>다운로드</button></td>
+            <td>{data.ID}</td>
+            <td>{data.CREATED_DATE}</td>
+            <td>{data.ORIGINAL_FILE_NAME}</td>
+            <td>{data.FILE_TYPE}</td>
+            <td>{data.FILE_SIZE}</td>
+            <td><button onClick={(e) => HandleOnclick(data.ID, e)}>다운로드</button></td>
           </tr>
         ) )
       }
