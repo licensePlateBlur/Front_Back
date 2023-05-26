@@ -14,6 +14,7 @@ const Layer = styled.div`
   background-color: #f8fafc;
   margin : 0 auto;
   margin-top : 20px;
+  cursor: pointer;
 `
 export default function Main() {
 
@@ -46,7 +47,7 @@ export default function Main() {
     };
   },[])
   return (
-    <Layer useRef={LayerRef}>
+    <Layer ref={LayerRef}>
       실시간 동영상 촬영
     </Layer>
   )

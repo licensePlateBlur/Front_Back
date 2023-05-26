@@ -58,7 +58,7 @@ export default function Video() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [datas,setDatas]=useState([]);
-  const [label,setLabel]=useState([0,0,0,0])
+  const [label,setLabel]=useState([0,0,0,0]);
   function HandleCancel()
   {
     window.location.reload();
@@ -111,6 +111,29 @@ export default function Video() {
         //1 : 파일 경로
         //2 : type
         //3 : 클래스정보 담겨있는 배열
+        let copy = [...label]; //배열의 원본을 수정하는것은 좋지 않다.
+        response.data[3].map( (data) =>
+          {
+            const labels = data.class.split('/');
+            labels.map( (label) =>{
+            if(label === '0')
+            {
+              copy[0] += 1;
+            }
+            else if (label === "Mobile phone")
+            {
+              copy[1] += 1;
+            }
+            else if (label === "card")
+            {
+              copy[2] += 1;
+            }
+            else if(label ==="license-plate")
+            {
+              copy[3] += 1;
+            }})
+          })
+          setLabel(copy);
       }catch(error)
       {
         setError('에러 발생');
