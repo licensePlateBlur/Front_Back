@@ -173,7 +173,7 @@ export default function Video() {
       input.removeEventListener('drop', handleDrop);
       save.removeEventListener('click',fetchVideo);
     };
-  },[datas,id,setId])
+  },[datas,id,setId,label])
   
   return (
     <>
