@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import '../App.css';
 import axios from 'axios';
 import {create} from 'zustand';
+import Resizer from 'react-image-file-resizer';
 const MainLayout = styled.div`
  max-width : 1200px;
  margin : 0 auto;
@@ -89,6 +90,12 @@ useEffect( () =>{
       preventDefault(event);
       DrawImage(event);
     }
+    const resizeImage = (file, maxWidth, maxHeight) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(file, maxWidth, maxHeight, 'JPEG', 70, 0, (resizedImage) => {
+      resolve(resizedImage);
+    },"file");
+  });
     
     const DrawImage = async(event) =>
     {
@@ -105,8 +112,9 @@ useEffect( () =>{
       
       console.log(event.dataTransfer.files[0]);
       const f = event.dataTransfer.files[0];
+      const resizedImage = await resizeImage(f, 640, 420);
       const formData = new FormData();
-      formData.append("image", f);
+      formData.append("image", resizedImage);
       setFile(f); //파일을받아서 zustand에 저장 -> 파일상태를 관리하고, 변환후 파일이름을 가져오기위함
       try{
         const response = await axios({
@@ -146,8 +154,9 @@ useEffect( () =>{
       ////////////////////////////////////////좌표값을 받아오고 진행
       //이미지 로딩이 완료되면 실행할 함수 등록
       const img = new Image();
-      img.src =  URL.createObjectURL(f);
+      img.src =  URL.createObjectURL(resizedImage);
         img.onload = () => {
+
           canvas.width=img.naturalWidth;
           canvas.height=img.naturalHeight;
           blur.width = img.naturalWidth;
