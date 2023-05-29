@@ -39,7 +39,7 @@ public class FileController {
     public ResponseEntity<?> upload(@RequestPart MultipartFile file) throws IOException
     {
         try {
-            System.out.println("flaskimage : " + requestflask(file));
+//            System.out.println("flaskimage : " + requestflask(file));
             FileEntity uploadfile = fileService.uploadfile(file);
             return ResponseEntity.ok().body(uploadfile.getId()); //파일을 업로드하고 api url을 전달
         }catch (Exception e)
