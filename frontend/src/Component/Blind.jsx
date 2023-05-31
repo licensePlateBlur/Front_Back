@@ -92,7 +92,9 @@ useEffect( () =>{
     }
     const resizeImage = (file, maxWidth, maxHeight) =>
     new Promise((resolve) => {
-      Resizer.imageFileResizer(file, maxWidth, maxHeight, 'JPEG', 70, 0, (resizedImage) => {
+
+      console.log(file.type);
+      Resizer.imageFileResizer(file, maxWidth, maxHeight, 'JPEG', 100, 0, (resizedImage) => {
       resolve(resizedImage);
     },"file");
   });
@@ -156,7 +158,6 @@ useEffect( () =>{
       const img = new Image();
       img.src =  URL.createObjectURL(resizedImage);
         img.onload = () => {
-
           canvas.width=img.naturalWidth;
           canvas.height=img.naturalHeight;
           blur.width = img.naturalWidth;
@@ -305,7 +306,7 @@ useEffect( () =>{
       try{
         const response = await axios({
           method: "post",
-          url: "http://localhost:8080/spring/upload",
+          url: "http://localhost:5000/python/image_upload",
           data: formdata,
           processData: false,
           contentType: false,

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { ReactComponent as Ten } from "../img/ten.svg";
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useRef } from 'react';
 <svg
   xmlns="http://www.w3.org/2000/svg"
   width="current"
@@ -25,7 +24,7 @@ export default function Gallery() {
   const HandleOnclick = async(id,event) =>{
     preventDefault(event);
       const download = document.createElement('a');
-        download.href = `http://localhost:8080/spring/attach/${id}`;
+        download.href = `http://localhost:5000/python/download_image/${id}`;
         download.setAttribute('download', "다운로드");
         download.click();
   }
@@ -35,7 +34,7 @@ export default function Gallery() {
       try
       {
       const result = await axios.get(
-        `http://localhost:8080/spring/files`
+        `http://localhost:5000/python/image_files`
       );
       setDatas(result.data);
     }catch(err)
@@ -52,7 +51,7 @@ export default function Gallery() {
     <table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>번호</th>
         <th>파일 생성일</th>
         <th>파일이름</th>
         <th>파일타입</th>
@@ -64,12 +63,12 @@ export default function Gallery() {
       {
         datas.map( (data,i)=>(
           <tr key={i}>
-            <td>{data.id}</td>
-            <td>{data.createdDate}</td>
-            <td>{data.originalFileName}</td>
-            <td>{data.file_type}</td>
-            <td>{data.file_size}</td>
-            <td><button onClick={(e) => HandleOnclick(data.id, e)}>다운로드</button></td>
+            <td>{data.ID}</td>
+            <td>{data.CREATED_DATE}</td>
+            <td>{data.ORIGINAL_FILE_NAME}</td>
+            <td>{data.FILE_TYPE}</td>
+            <td>{data.FILE_SIZE}</td>
+            <td><button onClick={(e) => HandleOnclick(data.ID, e)}>다운로드</button></td>
           </tr>
         ) )
       }
