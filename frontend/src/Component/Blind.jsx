@@ -288,7 +288,8 @@ useEffect( () =>{
       preventDefault(event);
       console.log("click");
       const blur = document.getElementById('blur');
-      const image = blur.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+      // const image = blur.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+      const image = blur.toDataURL("image/jpeg", 1.0)
       var link = document.createElement('a');
       link.download = file1.name;
       link.href = image;
@@ -299,8 +300,8 @@ useEffect( () =>{
       for (var i = 0; i < blobBin.length; i++) {
         array.push(blobBin.charCodeAt(i));
       }
-      var blob = new Blob([new Uint8Array(array)], {type: 'image/png'});
-      var mozaicfile = new File([blob], file1.name);
+      var blob = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+      var mozaicfile = new File([blob], file1.name ,{ type: 'image/jpeg' });
       var formdata = new FormData();	// formData 생성
       formdata.append("file", mozaicfile);	// file data 추가
       try{
